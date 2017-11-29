@@ -114,13 +114,18 @@ function getDetails(auth, sheet) {
       return;
     }
     const rows = response.values;
-    if (rows.length == 0) {
+    if (rows.length === 0) {
       console.log('No data found.');
     } else {
       for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
+        if (row[5]){
+            if (!(row[5].indexOf('AND/TMAC') === row[5].indexOf('AKL/CA'))){
+                console.log('%s, %s, %s', row[0], row[1], row[5]);
+            }
+        }
         // Print columns A and E, which correspond to indices 0 and 4.
-        console.log('%s, %s, %s', row[0], row[1], row[5]);
+        //   console.log(1)
       }
     }
   });
@@ -137,17 +142,14 @@ function getSheets(auth){
             console.log(`The API returned an error: ${err}`);
             return;
         }
+        console.log(response.sheets);
         for (let sheet in response.sheets){
-            console.log(response.sheets[sheet].properties.title.indexOf('Cohort 0'));
-            console.log(response.sheets[sheet].properties.title.indexOf('Sheet8'));
-            if( !(( response.sheets[sheet].properties.title.indexOf('Cohort 0')
-                    &&
-                    !response.sheets[sheet].properties.title.indexOf('Sheet8') )
-                ||
-                ( !response.sheets[sheet].properties.title.indexOf('Cohort 0')
-                    &&
+            if
+                ( response.sheets[sheet].properties.title.indexOf('Cohort 0')
+                    === // simulated XOR
                     response.sheets[sheet].properties.title.indexOf('Sheet8')
-                ) )){
+                )
+            {
                 getDetails(auth, response.sheets[sheet].properties.title)
             }
         }
