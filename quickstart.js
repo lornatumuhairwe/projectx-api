@@ -101,8 +101,6 @@ function storeToken(token) {
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
 function getDetails(auth, sheet) {
-    console.log('===================================================',sheet);
-
     const sheets = google.sheets('v4');
   sheets.spreadsheets.values.get({
     auth,
@@ -124,8 +122,6 @@ function getDetails(auth, sheet) {
                 console.log('%s, %s, %s', row[0], row[1], row[5]);
             }
         }
-        // Print columns A and E, which correspond to indices 0 and 4.
-        //   console.log(1)
       }
     }
   });
@@ -142,7 +138,7 @@ function getSheets(auth){
             console.log(`The API returned an error: ${err}`);
             return;
         }
-        console.log(response.sheets);
+
         for (let sheet in response.sheets){
             if
                 ( response.sheets[sheet].properties.title.indexOf('Cohort 0')
