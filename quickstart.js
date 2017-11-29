@@ -100,7 +100,7 @@ function storeToken(token) {
  * Print the names and majors of students in a sample spreadsheet:
  * https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  */
-function listMajors(auth, sheet) {
+function getDetails(auth, sheet) {
     console.log('===================================================',sheet);
 
     const sheets = google.sheets('v4');
@@ -138,7 +138,18 @@ function getSheets(auth){
             return;
         }
         for (let sheet in response.sheets){
-            listMajors(auth, response.sheets[sheet].properties.title)
+            console.log(response.sheets[sheet].properties.title.indexOf('Cohort 0'));
+            console.log(response.sheets[sheet].properties.title.indexOf('Sheet8'));
+            if( !(( response.sheets[sheet].properties.title.indexOf('Cohort 0')
+                    &&
+                    !response.sheets[sheet].properties.title.indexOf('Sheet8') )
+                ||
+                ( !response.sheets[sheet].properties.title.indexOf('Cohort 0')
+                    &&
+                    response.sheets[sheet].properties.title.indexOf('Sheet8')
+                ) )){
+                getDetails(auth, response.sheets[sheet].properties.title)
+            }
         }
     });
 }
